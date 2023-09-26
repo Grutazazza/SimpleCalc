@@ -14,59 +14,60 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             double previous = 0;  //Переменная сохраняюще предыдущие значение
-            
+
             do
             {
-                try         // Исключение на случай ошибки при конвертации строки в double
+                Console.Write("");
+                Console.Clear();
+                if (previous != 0 && previous != double.PositiveInfinity)  // Проверка предыдущего значения
                 {
-                    Console.Write("");
-                    Console.Clear();
-                    if (previous != 0&&previous!=double.PositiveInfinity)  // Проверка предыдущего значения
-                    {
-                        Console.WriteLine(previous);
-                    }
-                    else
+                    Console.WriteLine(previous);
+                }
+                else
+                {
+                    try   // Исключение на случай ошибки при конвертации строки в double
                     {
                         Console.WriteLine("Введите число");
                         previous = Convert.ToDouble(Console.ReadLine());  //Получение первичного значения
                     }
-                    Console.WriteLine("Выберите операцию написав её");
-                    Console.WriteLine("- : минус");
-                    Console.WriteLine("+ : плюс");
-                    Console.WriteLine("/ : деление");
-                    Console.WriteLine("* : умножение");
-                    Console.WriteLine("^ : возвести в степень");
-                    Console.WriteLine("3 : квадратный корень"); // Как более правильно писать корень?
-                    operation calculation = new operation();
-                    switch (Console.ReadLine())  //Выбор оператора
+                    catch
                     {
-                        case "-":
-                            previous = calculation.minus(previous); 
-                            break;
-                        case "+":
-                            previous = calculation.plus(previous);
-                            break;
-                        case "/":
-                            previous = calculation.divide(previous);
-                            break;
-                        case "*":
-                            previous = calculation.multiplicate(previous);
-                            break;
-                        case "^":
-                            previous = calculation.exponentiation(previous);
-                            break;
-                        case "3":
-                            previous = calculation.square_root(previous);
-                            break;
-                        default:
-                            Console.WriteLine("Неизвестный оператор");
-                            Thread.Sleep(2000);        //Ожидание на 2 сек.
-                            break;
+                        previous = 0; // Обнуление результата ||| На всякий случай
+                        continue;
                     }
                 }
-                catch
+                Console.WriteLine("Выберите операцию написав её");
+                Console.WriteLine("- : минус");
+                Console.WriteLine("+ : плюс");
+                Console.WriteLine("/ : деление");
+                Console.WriteLine("* : умножение");
+                Console.WriteLine("^ : возвести в степень");
+                Console.WriteLine("3 : квадратный корень"); // Как более правильно писать корень?
+                operation calculation = new operation();
+                switch (Console.ReadLine())  //Выбор оператора
                 {
-                    previous = 0; // Обнуление результата
+                    case "-":
+                        previous = calculation.minus(previous);
+                        break;
+                    case "+":
+                        previous = calculation.plus(previous);
+                        break;
+                    case "/":
+                        previous = calculation.divide(previous);
+                        break;
+                    case "*":
+                        previous = calculation.multiplicate(previous);
+                        break;
+                    case "^":
+                        previous = calculation.exponentiation(previous);
+                        break;
+                    case "3":
+                        previous = calculation.square_root(previous);
+                        break;
+                    default:
+                        Console.WriteLine("Неизвестный оператор");
+                        Thread.Sleep(2000);        //Ожидание на 2 сек.
+                        break;
                 }
             }
             while (true);
@@ -84,7 +85,7 @@ namespace ConsoleApp1
         {
             Clear(previous + " - ");
             double current = Convert.ToDouble(Console.ReadLine());
-            return previous-current;
+            return previous - current;
         }
         public double plus(double previous)
         {
@@ -110,7 +111,7 @@ namespace ConsoleApp1
             double current = Convert.ToDouble(Console.ReadLine());
             for (int i = 0; i < current; i++)
                 previous *= previous;
-            if(previous == double.PositiveInfinity)
+            if (previous == double.PositiveInfinity)
             {
                 Console.WriteLine("Число приблизилось к бесконечности");
                 Thread.Sleep(2000);
@@ -136,12 +137,12 @@ namespace ConsoleApp1
             while (true)
             {
                 double next = (mid + (previous / mid)) / 2;  // Формула нахождения корней
-                if (next > mid)   //Проще было поставить модуль при вычитании, но тут всё без класса Math
+                if (next > mid)   //Проще было поставить модуль при вычитании, но тут всё без Math
                 {
-                    if (next - mid < 0.00000000000005) 
-                       break;
+                    if (next - mid < 0.00000000000005)
+                        break;
                     else
-                       mid = next;
+                        mid = next;
                 }
                 else
                 {
